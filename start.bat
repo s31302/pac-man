@@ -1,4 +1,4 @@
 @echo off
 echo Uruchamiam sie... Pac-Man
-java -jar demo.jar
+java -cp "out\production\Projekt" Main
 pause
