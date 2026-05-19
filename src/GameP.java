@@ -60,6 +60,12 @@ public class GameP extends JPanel implements Runnable {
     private Ghost2 ghost2;
     private Ghost4 ghost4;
     String mapName;
+    // Pamięć poprzednich pozycji (dodaj na górze klasy GameP)
+    private int oldPacmanX, oldPacmanY;
+    private int oldGhost1X, oldGhost1Y;
+    private int oldGhost2X, oldGhost2Y;
+    private int oldGhost3X, oldGhost3Y;
+    private int oldGhost4X, oldGhost4Y;
 
 
     public GameP(int[][] map, int pacmanX, int pacmanY, GameF gameFrame, int ghost1X, int ghost1Y, int ghost2X, int ghost2Y, int ghost3X, int ghost3Y, int ghost4X, int ghost4Y, String mapName ){
@@ -81,7 +87,7 @@ public class GameP extends JPanel implements Runnable {
         pacmanImages = new ImageIcon[5][4];
         for (int i = 1; i < 5; i++) {
             for (int j = 3; j > 0; j--) {
-                ImageIcon pacmanImage = new ImageIcon("../Projekt/src/Images/pacman" + i + "_" + j + ".png");
+                ImageIcon pacmanImage = new ImageIcon(getClass().getResource("/Images/pacman" + i + "_" + j + ".png"));
                 pacmanImages[i][j] = new ImageIcon(pacmanImage.getImage().getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH));
             }
         }
@@ -89,33 +95,33 @@ public class GameP extends JPanel implements Runnable {
         ghost1Images = new ImageIcon[5][3];
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 3; j++) {
-                ImageIcon ghost1Image  = new ImageIcon("../Projekt/src/Images/ghost1_" + i + "_" + j + ".png");
+                ImageIcon ghost1Image  = new ImageIcon(getClass().getResource("/Images/ghost1_" + i + "_" + j + ".png"));
                 ghost1Images[i][j] = new ImageIcon(ghost1Image.getImage().getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH));
             }
         }
         ghost2Images = new ImageIcon[5][3];
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 3; j++) {
-                ImageIcon ghost2Image  = new ImageIcon("../Projekt/src/Images/ghost2_" + i + "_" + j + ".png");
+                ImageIcon ghost2Image  = new ImageIcon(getClass().getResource("/Images/ghost2_" + i + "_" + j + ".png"));
                 ghost2Images[i][j] = new ImageIcon(ghost2Image.getImage().getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH));
             }
         }
         ghost3Images = new ImageIcon[5][3];
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 3; j++) {
-                ImageIcon ghost3Image  = new ImageIcon("../Projekt/src/Images/ghost3_" + i + "_" + j + ".png");
+                ImageIcon ghost3Image  = new ImageIcon(getClass().getResource("/Images/ghost3_" + i + "_" + j + ".png"));
                 ghost3Images[i][j] = new ImageIcon(ghost3Image.getImage().getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH));
             }
         }
         ghost4Images = new ImageIcon[5][3];
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 3; j++) {
-                ImageIcon ghost4Image  = new ImageIcon("../Projekt/src/Images/ghost4_" + i + "_" + j + ".png");
+                ImageIcon ghost4Image  = new ImageIcon(getClass().getResource("/Images/ghost4_" + i + "_" + j + ".png"));
                 ghost4Images[i][j] = new ImageIcon(ghost4Image.getImage().getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH));
             }
         }
 
-        dotImage = new ImageIcon("../Projekt/src/Images/dotM.png");
+        dotImage = new ImageIcon(getClass().getResource("/Images/dotM.png"));
         dotImage = new ImageIcon(dotImage.getImage().getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH));
 
         setLayout(new GridLayout(map.length, map[0].length));
@@ -229,7 +235,10 @@ public class GameP extends JPanel implements Runnable {
             cellPanels[pacmanY][pacmanX].revalidate();
             cellPanels[pacmanY][pacmanX].repaint();
 
-            pacmanX = newMoveX;
+            oldPacmanX = pacmanX; // Zapisz starą pozycję
+            oldPacmanY = pacmanY;
+
+            pacmanX = newMoveX;   // Wykonaj nowy krok
             pacmanY = newMoveY;
 
             collectDot(newMoveX, newMoveY);
@@ -300,6 +309,9 @@ public class GameP extends JPanel implements Runnable {
     }
 
     public synchronized void moveGhost1(int fromX, int fromY, int toX, int toY) {
+        oldGhost1X = fromX; // Zapamiętaj skąd wyszedł duch
+        oldGhost1Y = fromY;
+
         cellPanels[fromY][fromX].remove(ghost1Label);
         cellPanels[fromY][fromX].revalidate();
         cellPanels[fromY][fromX].repaint();
@@ -311,9 +323,12 @@ public class GameP extends JPanel implements Runnable {
         cellPanels[toY][toX].add(ghost1Label);
         cellPanels[toY][toX].revalidate();
         cellPanels[toY][toX].repaint();
+        checkCollisions();
     }
 
     public synchronized void moveGhost2(int fromX, int fromY, int toX, int toY) {
+        oldGhost2X = fromX; // Zapamiętaj skąd wyszedł duch
+        oldGhost2Y = fromY;
         cellPanels[fromY][fromX].remove(ghost2Label);
         cellPanels[fromY][fromX].revalidate();
         cellPanels[fromY][fromX].repaint();
@@ -325,8 +340,11 @@ public class GameP extends JPanel implements Runnable {
         cellPanels[toY][toX].add(ghost2Label);
         cellPanels[toY][toX].revalidate();
         cellPanels[toY][toX].repaint();
+        checkCollisions();
     }
     public synchronized void moveGhost3(int fromX, int fromY, int toX, int toY) {
+        oldGhost3X = fromX; // Zapamiętaj skąd wyszedł duch
+        oldGhost3Y = fromY;
         cellPanels[fromY][fromX].remove(ghost3Label);
         cellPanels[fromY][fromX].revalidate();
         cellPanels[fromY][fromX].repaint();
@@ -338,8 +356,11 @@ public class GameP extends JPanel implements Runnable {
         cellPanels[toY][toX].add(ghost3Label);
         cellPanels[toY][toX].revalidate();
         cellPanels[toY][toX].repaint();
+        checkCollisions();
     }
     public synchronized void moveGhost4(int fromX, int fromY, int toX, int toY) {
+        oldGhost4X = fromX; // Zapamiętaj skąd wyszedł duch
+        oldGhost4Y = fromY;
         cellPanels[fromY][fromX].remove(ghost4Label);
         cellPanels[fromY][fromX].revalidate();
         cellPanels[fromY][fromX].repaint();
@@ -351,6 +372,7 @@ public class GameP extends JPanel implements Runnable {
         cellPanels[toY][toX].add(ghost4Label);
         cellPanels[toY][toX].revalidate();
         cellPanels[toY][toX].repaint();
+        checkCollisions();
     }
     public synchronized void updateGhost1Image(int x, int y, int direction, int animationGhost) {
         ghost1Direction = direction;
@@ -379,40 +401,42 @@ public class GameP extends JPanel implements Runnable {
         cellPanels[y][x].repaint();
     }
 
-private void checkCollisions() {
-    int pacmanCenterX = pacmanX * TILE_SIZE + TILE_SIZE / 2;
-    int pacmanCenterY = pacmanY * TILE_SIZE + TILE_SIZE / 2;
+    private void checkCollisions() {
+        boolean collision = false;
 
-    int ghost1CenterX = ghost1X * TILE_SIZE + TILE_SIZE / 2;
-    int ghost1CenterY = ghost1Y * TILE_SIZE + TILE_SIZE / 2;
+        // Sytuacja 1: Wpadli na tę samą kratkę
+        if ((pacmanX == ghost1X && pacmanY == ghost1Y) ||
+                (pacmanX == ghost2X && pacmanY == ghost2Y) ||
+                (pacmanX == ghost3X && pacmanY == ghost3Y) ||
+                (pacmanX == ghost4X && pacmanY == ghost4Y)) {
+            collision = true;
+        }
 
-    int ghost2CenterX = ghost2X * TILE_SIZE + TILE_SIZE / 2;
-    int ghost2CenterY = ghost2Y * TILE_SIZE + TILE_SIZE / 2;
+        // Sytuacja 2: Tunneling (Zamienili się miejscami)
+        if ((pacmanX == oldGhost1X && pacmanY == oldGhost1Y && oldPacmanX == ghost1X && oldPacmanY == ghost1Y) ||
+                (pacmanX == oldGhost2X && pacmanY == oldGhost2Y && oldPacmanX == ghost2X && oldPacmanY == ghost2Y) ||
+                (pacmanX == oldGhost3X && pacmanY == oldGhost3Y && oldPacmanX == ghost3X && oldPacmanY == ghost3Y) ||
+                (pacmanX == oldGhost4X && pacmanY == oldGhost4Y && oldPacmanX == ghost4X && oldPacmanY == ghost4Y)) {
+            collision = true;
+        }
 
-    int ghost3CenterX = ghost3X * TILE_SIZE + TILE_SIZE / 2;
-    int ghost3CenterY = ghost3Y * TILE_SIZE + TILE_SIZE / 2;
+        // Jeśli doszło do jakiejkolwiek kolizji:
+        if (collision) {
+            lives--;
+            gameFrame.updateLives(lives);
+            isStarted = false;
 
-    int ghost4CenterX = ghost4X * TILE_SIZE + TILE_SIZE / 2;
-    int ghost4CenterY = ghost4Y * TILE_SIZE + TILE_SIZE / 2;
-
-    int collisionDistance = TILE_SIZE - (TILE_SIZE / 5);
-    if (Math.abs(pacmanCenterX - ghost1CenterX) < collisionDistance && Math.abs(pacmanCenterY - ghost1CenterY) < collisionDistance ||
-            Math.abs(pacmanCenterX - ghost2CenterX) < collisionDistance && Math.abs(pacmanCenterY - ghost2CenterY) < collisionDistance ||
-            Math.abs(pacmanCenterX - ghost3CenterX) < collisionDistance && Math.abs(pacmanCenterY - ghost3CenterY) < collisionDistance ||
-            Math.abs(pacmanCenterX - ghost4CenterX) < collisionDistance && Math.abs(pacmanCenterY - ghost4CenterY) < collisionDistance) {
-        lives--;
-        gameFrame.updateLives(lives);
-        isStarted = false;
-        if (lives <= 0) {
-            endGame();
-        } else {
-            cellPanels[pacmanY][pacmanX].remove(pacmanLabel);
-            cellPanels[pacmanY][pacmanX].revalidate();
-            cellPanels[pacmanY][pacmanX].repaint();
-            resetPositions();
+            if (lives <= 0) {
+                endGame();
+            } else {
+                cellPanels[pacmanY][pacmanX].remove(pacmanLabel);
+                cellPanels[pacmanY][pacmanX].revalidate();
+                cellPanels[pacmanY][pacmanX].repaint();
+                resetPositions();
+            }
         }
     }
-}
+
     private void resetPositions() {
         isStarted = false;
 

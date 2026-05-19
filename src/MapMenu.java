@@ -50,6 +50,32 @@ public class MapMenu implements ActionListener {
         buttonM.addActionListener(this);
         buttonL.addActionListener(this);
         buttonXL.addActionListener(this);
+
+        buttonXS.setOpaque(true);
+        buttonXS.setContentAreaFilled(true); // Wymusza wypełnienie kolorem
+        buttonXS.setBorderPainted(false);    // Usuwa ramkę
+        buttonXS.setBackground(Color.YELLOW);
+
+        buttonS.setOpaque(true);
+        buttonS.setContentAreaFilled(true); // Wymusza wypełnienie kolorem
+        buttonS.setBorderPainted(false);    // Usuwa ramkę
+        buttonS.setBackground(Color.YELLOW);
+
+        buttonM.setOpaque(true);
+        buttonM.setContentAreaFilled(true); // Wymusza wypełnienie kolorem
+        buttonM.setBorderPainted(false);   // Usuwa ramkę
+        buttonM.setBackground(Color.YELLOW);
+
+        buttonL.setOpaque(true);
+        buttonL.setContentAreaFilled(true); // Wymusza wypełnienie kolorem
+        buttonL.setBorderPainted(false);    // Usuwa ramkę
+        buttonL.setBackground(Color.YELLOW);
+
+        buttonXL.setOpaque(true);
+        buttonXL.setContentAreaFilled(true); // Wymusza wypełnienie kolorem
+        buttonXL.setBorderPainted(false);    // Usuwa ramkę
+        buttonXL.setBackground(Color.YELLOW);
+
     }
 
     @Override

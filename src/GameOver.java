@@ -71,14 +71,18 @@ public class GameOver extends JFrame {
     }
 
     private void saveScoreToFile(ScoreSerializable scoreSerializable) {
-        String fileName = "../Projekt/src/score" + scoreSerializable.getMapName();
-        List<ScoreSerializable> scores = readScoresFromFile(fileName);
+        File directory = new File("Scores");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String fileName = "Scores/score" + scoreSerializable.getMapName() + ".dat";        List<ScoreSerializable> scores = readScoresFromFile(fileName);
         scores.add(scoreSerializable);
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(scores);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -86,7 +90,9 @@ public class GameOver extends JFrame {
         List<ScoreSerializable> scores = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             scores = (List<ScoreSerializable>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {}
+        } catch (IOException | ClassNotFoundException e) {
+
+        }
         return scores;
     }
 }

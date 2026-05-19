@@ -43,6 +43,21 @@ public class Menu implements ActionListener {
         buttonE.addActionListener(this);
         buttonB.addActionListener(this);
 
+        buttonS.setOpaque(true);
+        buttonS.setBorderPainted(false);
+        buttonS.setBackground(Color.YELLOW);
+        buttonS.setForeground(Color.BLACK);
+
+        buttonE.setOpaque(true);
+        buttonE.setBorderPainted(false);
+        buttonE.setBackground(Color.YELLOW);
+        buttonE.setForeground(Color.BLACK);
+
+        buttonB.setOpaque(true);
+        buttonB.setBorderPainted(false);
+        buttonB.setBackground(Color.YELLOW);
+        buttonB.setForeground(Color.BLACK);
+
     }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonS) {

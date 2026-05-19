@@ -71,7 +71,12 @@ public class GameWin extends JFrame {
     }
 
     private void saveScoreToFile(ScoreSerializable scoreSerializable) {
-        String fileName = "../Projekt/src/score" + scoreSerializable.getMapName();
+        File directory = new File("Scores");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String fileName = "Scores/score" + scoreSerializable.getMapName() + ".dat";
         List<ScoreSerializable> scores = readScoresFromFile(fileName);
         scores.add(scoreSerializable);
 

@@ -7,13 +7,12 @@ import java.util.ArrayList;
 
 public class BestScoreP extends JPanel {
     public BestScoreP() {
-
-    setLayout(new GridLayout(5, 1));
-        add(createScrollPane("../Projekt/src/scoreXS", "Score for Map XS"));
-        add(createScrollPane("../Projekt/src/scoreS", "Score for Map S"));
-        add(createScrollPane("../Projekt/src/scoreM", "Score for Map M"));
-        add(createScrollPane("../Projekt/src/scoreL", "Score for Map L"));
-        add(createScrollPane("../Projekt/src/scoreXL", "Score for Map XL"));
+        setLayout(new GridLayout(5, 1));
+        add(createScrollPane("scores/scoreXS.dat", "Score for Map XS"));
+        add(createScrollPane("scores/scoreS.dat", "Score for Map S"));
+        add(createScrollPane("scores/scoreM.dat", "Score for Map M"));
+        add(createScrollPane("scores/scoreL.dat", "Score for Map L"));
+        add(createScrollPane("scores/scoreXL.dat", "Score for Map XL"));
     }
 
     private JScrollPane createScrollPane(String fileName, String title) {
